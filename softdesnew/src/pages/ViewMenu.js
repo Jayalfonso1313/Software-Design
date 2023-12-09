@@ -6,13 +6,13 @@ const ViewMenu = ({ name }) => {
   const [isCartVisible, setIsCartVisible] = useState(false);
   const navigate = useNavigate();
 
-  const coffeeMenu = [
+  const [coffeeMenu, setCoffeeMenu] = useState([
     {
       id: 1,
       name: 'Long Black',
       prices: { S: 50, M: 60, L: 70 },
       sizes: ['S', 'M', 'L'],
-      image: require('../assets/LongBlack.png')
+      image: require('../assets/LongBlack.jpg')
     },
     {
       id: 2,
@@ -63,18 +63,30 @@ const ViewMenu = ({ name }) => {
       sizes: ['S', 'M', 'L'],
       image: require('../assets/HazelnutMacchiato.jpg')
     },
-  ];
+  ]);
+
+  const setItemSelection = (itemId, size, quantity) => {
+    setCoffeeMenu((prevMenu) =>
+      prevMenu.map((item) =>
+        item.id === itemId
+          ? { ...item, selectedSize: size, selectedQuantity: quantity }
+          : item
+      )
+    );
+  };
 
   const addToCart = (item, quantity, size) => {
     const cartItemId = `${item.id}-${size}`;
     const existingItem = cart.find((cartItem) => cartItem.cartItemId === cartItemId);
 
     if (existingItem) {
-      setCart(cart.map((cartItem) =>
-        cartItem.cartItemId === cartItemId
-          ? { ...cartItem, quantity: cartItem.quantity + quantity }
-          : cartItem
-      ));
+      setCart((prevCart) =>
+        prevCart.map((cartItem) =>
+          cartItem.cartItemId === cartItemId
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
+            : cartItem
+        )
+      );
     } else {
       setCart([...cart, { ...item, quantity, size, cartItemId }]);
     }
@@ -82,11 +94,14 @@ const ViewMenu = ({ name }) => {
   };
 
   const removeFromCart = (cartItemId) => {
-    setCart(cart.filter((item) => item.cartItemId !== cartItemId));
+    setCart((prevCart) => prevCart.filter((item) => item.cartItemId !== cartItemId));
   };
 
   const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.prices[item.size] * item.quantity, 0).toFixed(2);
+    return cart.reduce(
+      (total, item) => total + item.prices[item.size] * item.quantity,
+      0
+    ).toFixed(2);
   };
 
   const renderOrderStatus = () => {
@@ -101,16 +116,58 @@ const ViewMenu = ({ name }) => {
       </div>
       <div>
         {coffeeMenu.map((item) => (
-          <div key={item.id} className="my-2.5 p-12 rounded-lg bg-white/10 backdrop-blur-sm shadow-xl flex flex-col items-center">
+          <div key={item.id} className="my-2.5 p-12 rounded-lg bg-white/25 backdrop-blur-sm shadow-xl flex flex-col items-center">
             <img src={item.image} className="w-60 rounded-lg mb-2.5" alt={item.name} />
-            <p>{item.name} - ₱{item.prices['S'].toFixed(2)}</p>
-            {/* Add size and quantity selection here */}
-            <button onClick={() => addToCart(item, 1, 'S')} className="bg-[#C19A6B] text-white py-1 px-3 rounded-md">Add to Cart</button>
+            <p className="text-lg font-semibold">
+              {item.name} - ₱{item.prices[item.selectedSize || 'S'].toFixed(2)}
+            </p>
+            <div className="flex items-center my-2">
+              <p className="mr-2">Size:</p>
+              {item.sizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setItemSelection(item.id, size, item.selectedQuantity || '')}
+                  className={`mx-1 bg-[#C19A6B] text-white py-1 px-3 rounded-md ${item.selectedSize === size ? 'bg-opacity-40' : ''}`}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
+            <div className="flex items-center mb-2">
+              <p className="mr-2">Quantity:</p>
+              <div className="flex items-center">
+                <button
+                  onClick={() => setItemSelection(item.id, item.selectedSize || 'S', Math.max(parseInt(item.selectedQuantity) - 1, 0))}
+                  className="bg-[#C19A6B] text-white py-1 px-3 rounded-md"
+                >
+                  -
+                </button>
+                <input
+                  type="number"
+                  min="0"
+                  value={item.selectedQuantity || ''}
+                  onChange={(e) => setItemSelection(item.id, item.selectedSize || 'S', e.target.value)}
+                  className="bg-white text-[#C19A6B] border border-[#C19A6B] px-2 py-1 rounded-md w-16 mx-2"
+                />
+                <button
+                  onClick={() => setItemSelection(item.id, item.selectedSize || 'S', parseInt(item.selectedQuantity) + 1)}
+                  className="bg-[#C19A6B] text-white py-1 px-3 rounded-md"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <button
+              onClick={() => addToCart(item, item.selectedQuantity || '', item.selectedSize || 'S')}
+              className="bg-[#C19A6B] text-white py-1 px-3 rounded-md mt-2"
+            >
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>
       {isCartVisible && (
-        <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-50">
+        <div className="absolute inset-0 flex justify-center items-center bg-black/50 bg-opacity-">
           <div className="bg-white p-5 rounded-lg shadow-lg">
             <p>Your Cart:</p>
             {cart.map((item) => (

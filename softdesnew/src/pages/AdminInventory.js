@@ -53,7 +53,7 @@ const AdminInventory = () => {
       <div className="flex flex-col items-center w-full max-w-2xl">
         <h1 className="text-2xl font-bold mb-4">Coffee Shop Inventory</h1>
 
-        <div className="bg-white/90 p-4 rounded-lg shadow-md mb-4">
+        <div className="bg-white/50 p-4 rounded-lg shadow-md mb-4">
           <input
             className="border border-gray-400 p-2 rounded mb-2 w-full"
             placeholder="Item Name"
@@ -72,7 +72,7 @@ const AdminInventory = () => {
           </button>
         </div>
 
-        <div className="bg-white/90 p-4 rounded-lg shadow-md w-full">
+        <div className="bg-white/50 p-4 rounded-lg shadow-md w-full">
           <div className="flex mb-3">
             <div className="flex-1 font-bold">Item Name</div>
             <div className="flex-1 font-bold">Quantity</div>
@@ -87,7 +87,7 @@ const AdminInventory = () => {
               <div className="flex-1">{item.name}</div>
               <div className="flex-1">{item.quantity}</div>
               {selectedItem === item.id && (
-                <button className="bg-brown-600 text-white px-2 py-1 rounded ml-2" onClick={() => deleteItem(item.id)}>
+                <button className="bg-brown-600 text-black px-2 py-1 rounded ml-2" onClick={() => deleteItem(item.id)}>
                   Delete
                 </button>
               )}

@@ -14,8 +14,8 @@ const AdminHome = ({ adminName }) => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-cover bg-background-adminhome">
-      <div className="rounded-lg p-5 bg-white/90 backdrop-blur-sm shadow-lg flex flex-col items-center">
-        <img src={require('../assets/C.png')} className="w-37.5 h-25 mb-5" alt="Coffee Icon" />
+      <div className="rounded-lg p-5 bg-white/50 backdrop-blur-sm shadow-lg flex flex-col items-center">
+        <img src={require('../assets/Logo1.png')} className="w-37.5 h-25 mb-5" alt="Coffee Icon" />
         <p className="text-lg mb-5">Welcome, Admin!</p>
         <button className="rounded-md bg-[#6F4E37] py-2.5 px-5 my-1.5 text-white" onClick={navigateToInventory}>
           Inventory

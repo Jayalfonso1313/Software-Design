@@ -18,8 +18,8 @@ const HomePage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-cover bg-background-home">
-      <div className="rounded-lg p-5 bg-white/60 backdrop-blur-sm flex flex-col items-center shadow-lg">
-        <img src={require('../assets/C.png')} className="w-37.5 h-25 mb-5" alt="Coffee Icon" />
+      <div className="rounded-lg p-5 bg-white/50 backdrop-blur-sm flex flex-col items-center shadow-lg">
+        <img src={require('../assets/Logo1.png')} className="w-37.5 h-25 mb-5" alt="Coffee Icon" />
         <p className="text-lg mb-5">Welcome, {name}!</p>
         <button className="rounded-md bg-[#6F4E37] py-2.5 px-5 my-1.5 text-white" onClick={navigateToViewMenu}>
           View Menu

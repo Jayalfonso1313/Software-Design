@@ -19,7 +19,7 @@ const Admin = ({ adminName }) => {
 
   return (
     <div className="flex justify-center items-center h-screen bg-cover bg-background-admin">
-      <div className="rounded-lg p-5 flex flex-col bg-white/80 backdrop-blur-sm shadow-lg">
+      <div className="rounded-lg p-5 flex flex-col bg-white/50 backdrop-blur-sm shadow-lg">
         <p>Login as Admin.</p>
         <input
           className="h-10 border-gray-400 border-2 my-2.5 p-2.5 w-50 bg-white"
